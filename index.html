@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Media Pembelajaran Interaktif Spektrum Gelombang Elektromagnetik untuk Kelas XII SMA">
+    <meta name="keywords" content="spektrum elektromagnetik, gelombang, pembelajaran interaktif, fisika">
+    <title>Spektrum Gelombang Elektromagnetik - Media Pembelajaran Interaktif</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Container utama aplikasi -->
+    <div id="app" class="app-container">
+        
+        <!-- ============================================
+             HALAMAN 1: HOME / MENU UTAMA
+             ============================================ -->
+        <section id="home-page" class="page active">
+            <div class="home-container">
+                <!-- Header dengan logo dan judul -->
+                <header class="home-header">
+                    <div class="logo-container">
+                        <div class="logo-icon">⚡</div>
+                    </div>
+                    <h1 class="main-title">Spektrum Gelombang Elektromagnetik</h1>
+                    <p class="subtitle">Media Pembelajaran Interaktif Kelas XII SMA</p>
+                </header>
+
+                <!-- Konten utama dengan pemilihan mode -->
+                <main class="home-content">
+                    <p class="welcome-text">
+                        Selamat datang! Pilih mode pembelajaran yang sesuai dengan preferensi Anda.
+                    </p>
+
+                    <!-- Mode Selection Cards -->
+                    <div class="mode-selection">
+                        <!-- Card Mode Eksplorasi -->
+                        <div class="mode-card" onclick="navigateTo('exploration-mode')">
+                            <div class="mode-icon">🔍</div>
+                            <h2>Mode Eksplorasi</h2>
+                            <p>Jelajahi spektrum gelombang secara bebas. Geserkan slider untuk melihat perubahan panjang gelombang, frekuensi, dan energi secara real-time.</p>
+                            <button class="btn-mode primary">Mulai Eksplorasi</button>
+                        </div>
+
+                        <!-- Card Mode Pembelajaran Terstruktur -->
+                        <div class="mode-card" onclick="navigateTo('learning-mode')">
+                            <div class="mode-icon">📚</div>
+                            <h2>Mode Pembelajaran</h2>
+                            <p>Ikuti alur pembelajaran LKPD langkah demi langkah. Lengkapi tabel pengamatan, kerjakan kuis, dan lihat ringkasan hasil belajar Anda.</p>
+                            <button class="btn-mode secondary">Mulai Pembelajaran</button>
+                        </div>
+                    </div>
+
+                    <!-- Informasi tambahan -->
+                    <div class="info-box">
+                        <h3>📖 Tentang Media Pembelajaran Ini</h3>
+                        <p>
+                            Media ini dirancang untuk membantu siswa memahami spektrum gelombang elektromagnetik melalui visualisasi interaktif. 
+                            Anda dapat mengeksplorasi setiap jenis spektrum (Radio, Microwave, Inframerah, Cahaya Tampak, Ultraviolet, Sinar-X, dan Sinar Gamma), 
+                            melihat bagaimana panjang gelombang, frekuensi, dan energi saling berkaitan, serta mempelajari aplikasi praktis dari setiap spektrum.
+                        </p>
+                    </div>
+                </main>
+
+                <!-- Footer -->
+                <footer class="home-footer">
+                    <p>Tidak memerlukan instalasi • Berjalan offline • Responsive untuk semua perangkat</p>
+                </footer>
+            </div>
+        </section>
+
+        <!-- ============================================
+             HALAMAN 2: MODE EKSPLORASI
+             ============================================ -->
+        <section id="exploration-mode" class="page">
+            <div class="exploration-container">
+                <!-- Header Mode Eksplorasi -->
+                <header class="mode-header">
+                    <button class="btn-nav btn-home" onclick="navigateTo('home-page')" title="Kembali ke Home">
+                        🏠 Home
+                    </button>
+                    <h2>Mode Eksplorasi - Spektrum Gelombang Elektromagnetik</h2>
+                    <div class="header-spacer"></div>
+                </header>
+
+                <!-- Konten Utama -->
+                <main class="exploration-content">
+                    <!-- Bagian Slider -->
+                    <section class="slider-section">
+                        <h3>Geser Slider untuk Menjelajahi Spektrum</h3>
+                        
+                        <!-- Slider Interaktif -->
+                        <div class="slider-container">
+                            <div class="spectrum-bar">
+                                <!-- Bar spektrum dengan gradient -->
+                                <div class="spectrum-gradient"></div>
+                                
+                                <!-- Slider input -->
+                                <input 
+                                    type="range" 
+                                    id="spectrum-slider" 
+                                    class="slider-input"
+                                    min="0" 
+                                    max="6" 
+                                    value="3"
+                                    step="1"
+                                    oninput="updateSpectrum(this.value)"
+                                >
+                            </div>
+                            
+                            <!-- Label spektrum di bawah slider -->
+                            <div class="spectrum-labels">
+                                <span class="label" data-index="0">Radio</span>
+                                <span class="label" data-index="1">Microwave</span>
+                                <span class="label" data-index="2">Inframerah</span>
+                                <span class="label" data-index="3">Cahaya Tampak</span>
+                                <span class="label" data-index="4">Ultraviolet</span>
+                                <span class="label" data-index="5">Sinar-X</span>
+                                <span class="label" data-index="6">Sinar Gamma</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Grid Layout: Animasi Gelombang + Informasi -->
+                    <div class="exploration-grid">
+                        <!-- Kolom Kiri: Animasi Gelombang -->
+                        <section class="visualization-section">
+                            <h3>Visualisasi Gelombang</h3>
+                            
+                            <!-- Canvas untuk animasi gelombang -->
+                            <canvas 
+                                id="wave-canvas" 
+                                class="wave-canvas"
+                                width="400"
+                                height="150"
+                            ></canvas>
+                            
+                            <!-- Informasi gelombang real-time -->
+                            <div class="wave-info">
+                                <p>Panjang Gelombang (λ): <span id="wavelength-display" class="info-value">500 nm</span></p>
+                                <p>Frekuensi (f): <span id="frequency-display" class="info-value">6.0 × 10¹⁴ Hz</span></p>
+                                <p>Energi Foton (E): <span id="energy-display" class="info-value">3.97 eV</span></p>
+                                <p class="formula">E = hf (h = 6.626 × 10⁻³⁴ J·s)</p>
+                            </div>
+                        </section>
+
+                        <!-- Kolom Kanan: Informasi Spektrum -->
+                        <section class="spectrum-info-section">
+                            <h3 id="spectrum-name">Cahaya Tampak</h3>
+                            
+                            <!-- Icon spektrum -->
+                            <div class="spectrum-icon" id="spectrum-icon">👁️</div>
+                            
+                            <!-- Card informasi spektrum -->
+                            <div class="info-card">
+                                <div class="info-item">
+                                    <label>Rentang Panjang Gelombang:</label>
+                                    <span id="info-wavelength" class="info-value">400-700 nm</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Rentang Frekuensi:</label>
+                                    <span id="info-frequency" class="info-value">4.3 - 7.5 × 10¹⁴ Hz</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Energi Foton:</label>
+                                    <span id="info-energy" class="info-value">1.8 - 3.1 eV</span>
+                                </div>
+                            </div>
+
+                            <!-- Sumber dan Aplikasi -->
+                            <div class="details-box">
+                                <h4>📡 Sumber</h4>
+                                <p id="info-source">Matahari, bintang, lampu</p>
+                            </div>
+
+                            <div class="details-box">
+                                <h4>💡 Aplikasi</h4>
+                                <p id="info-application">Penglihatan manusia, fotografi, iluminasi</p>
+                            </div>
+
+                            <div class="details-box">
+                                <h4>✨ Manfaat</h4>
+                                <p id="info-benefit">Memungkinkan kita melihat dunia, fotosintesis tumbuhan</p>
+                            </div>
+
+                            <div class="warning-box">
+                                <h4>⚠️ Potensi Bahaya</h4>
+                                <p id="info-danger">Paparan cahaya terlalu terang dapat merusak mata</p>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+
+                <!-- Navigation Buttons -->
+                <footer class="exploration-footer">
+                    <button class="btn-nav" onclick="navigateTo('home-page')">← Kembali ke Home</button>
+                    <button class="btn-nav primary" onclick="navigateTo('learning-mode')">Lanjut ke Mode Pembelajaran →</button>
+                </footer>
+            </div>
+        </section>
+
+        <!-- ============================================
+             HALAMAN 3: MODE PEMBELAJARAN (LKPD)
+             ============================================ -->
+        <section id="learning-mode" class="page">
+            <div class="learning-container">
+                <!-- Progress Indicator -->
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                    <div class="progress-text">
+                        <span id="current-step">Langkah 1</span> / <span id="total-steps">5</span>
+                    </div>
+                </div>
+
+                <!-- Header -->
+                <header class="mode-header">
+                    <button class="btn-nav btn-home" onclick="navigateTo('home-page')" title="Kembali ke Home">
+                        🏠 Home
+                    </button>
+                    <h2>Mode Pembelajaran - Ikuti Alur LKPD</h2>
+                    <div class="header-spacer"></div>
+                </header>
+
+                <!-- Konten Learning Steps -->
+                <main class="learning-content">
+                    <!-- Step 1: Eksplorasi Spektrum -->
+                    <div id="step-1" class="learning-step active">
+                        <div class="step-header">
+                            <h3>Langkah 1: Eksplorasi Spektrum Gelombang Elektromagnetik</h3>
+                            <p class="step-description">Pelajari setiap jenis spektrum dengan menggeser slider di bawah ini</p>
+                        </div>
+
+                        <div class="step-content learning-exploration">
+                            <!-- Slider -->
+                            <div class="slider-container">
+                                <div class="spectrum-bar">
+                                    <div class="spectrum-gradient"></div>
+                                    <input 
+                                        type="range" 
+                                        id="learning-slider" 
+                                        class="slider-input"
+                                        min="0" 
+                                        max="6" 
+                                        value="3"
+                                        step="1"
+                                        oninput="updateLearningSpectrum(this.value)"
+                                    >
+                                </div>
+                                <div class="spectrum-labels">
+                                    <span class="label" data-index="0">Radio</span>
+                                    <span class="label" data-index="1">Microwave</span>
+                                    <span class="label" data-index="2">Inframerah</span>
+                                    <span class="label" data-index="3">Cahaya Tampak</span>
+                                    <span class="label" data-index="4">Ultraviolet</span>
+                                    <span class="label" data-index="5">Sinar-X</span>
+                                    <span class="label" data-index="6">Sinar Gamma</span>
+                                </div>
+                            </div>
+
+                            <!-- Grid dengan Visualisasi dan Info -->
+                            <div class="exploration-grid">
+                                <section class="visualization-section">
+                                    <h4>Visualisasi Gelombang</h4>
+                                    <canvas 
+                                        id="learning-wave-canvas" 
+                                        class="wave-canvas"
+                                        width="400"
+                                        height="120"
+                                    ></canvas>
+                                    <div class="wave-info">
+                                        <p>λ: <span id="learning-wavelength-display">500 nm</span></p>
+                                        <p>f: <span id="learning-frequency-display">6.0 × 10¹⁴ Hz</span></p>
+                                        <p>E: <span id="learning-energy-display">3.97 eV</span></p>
+                                    </div>
+                                </section>
+
+                                <section class="spectrum-info-section">
+                                    <h4 id="learning-spectrum-name">Cahaya Tampak</h4>
+                                    <div class="spectrum-icon" id="learning-spectrum-icon">👁️</div>
+                                    <div class="info-card">
+                                        <div class="info-item">
+                                            <label>Rentang λ:</label>
+                                            <span id="learning-info-wavelength">400-700 nm</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Rentang f:</label>
+                                            <span id="learning-info-frequency">4.3 - 7.5 × 10¹⁴ Hz</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Energi:</label>
+                                            <span id="learning-info-energy">1.8 - 3.1 eV</span>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Sebelumnya</button>
+                            <button class="btn-nav primary" onclick="nextStep()">Selanjutnya →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Tabel Pengamatan -->
+                    <div id="step-2" class="learning-step">
+                        <div class="step-header">
+                            <h3>Langkah 2: Tabel Pengamatan Hasil Eksplorasi</h3>
+                            <p class="step-description">Lengkapi tabel di bawah dengan data dari setiap spektrum yang telah Anda pelajari</p>
+                        </div>
+
+                        <div class="step-content observation-table">
+                            <div class="table-wrapper">
+                                <table class="observation-table" id="observation-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Jenis Spektrum</th>
+                                            <th>Panjang Gelombang (λ)</th>
+                                            <th>Frekuensi (f)</th>
+                                            <th>Energi (E)</th>
+                                            <th>Aplikasi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Radio</td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Microwave</td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Inframerah</td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Cahaya Tampak</td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Ultraviolet</td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>Sinar-X</td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>Sinar Gamma</td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Masukkan data"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Pertanyaan Refleksi -->
+                            <div class="reflection-questions">
+                                <h4>Pertanyaan Refleksi</h4>
+                                <div class="question-item">
+                                    <p><strong>1. Apa hubungan antara panjang gelombang dan frekuensi?</strong></p>
+                                    <textarea class="reflection-input" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                                </div>
+                                <div class="question-item">
+                                    <p><strong>2. Mengapa energi foton meningkat seiring dengan peningkatan frekuensi?</strong></p>
+                                    <textarea class="reflection-input" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                                </div>
+                                <div class="question-item">
+                                    <p><strong>3. Spektrum mana yang paling berbahaya bagi manusia dan mengapa?</strong></p>
+                                    <textarea class="reflection-input" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Sebelumnya</button>
+                            <button class="btn-nav primary" onclick="nextStep()">Selanjutnya →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Pencocokan Aplikasi (Drag & Drop) -->
+                    <div id="step-3" class="learning-step">
+                        <div class="step-header">
+                            <h3>Langkah 3: Pencocokan Aplikasi dengan Spektrum</h3>
+                            <p class="step-description">Tarik dan letakkan aplikasi ke jenis spektrum yang sesuai</p>
+                        </div>
+
+                        <div class="step-content matching-activity">
+                            <div class="matching-grid">
+                                <!-- Kolom Kiri: Spektrum (Target) -->
+                                <div class="spectrum-column">
+                                    <h4>Jenis Spektrum</h4>
+                                    <div class="spectrum-boxes">
+                                        <div class="drop-zone" data-spectrum="radio">
+                                            <div class="spectrum-label">📻 Radio</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="microwave">
+                                            <div class="spectrum-label">🌊 Microwave</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="infrared">
+                                            <div class="spectrum-label">🔥 Inframerah</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="visible">
+                                            <div class="spectrum-label">👁️ Cahaya Tampak</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="ultraviolet">
+                                            <div class="spectrum-label">☀️ Ultraviolet</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="xray">
+                                            <div class="spectrum-label">🩻 Sinar-X</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="gamma">
+                                            <div class="spectrum-label">☢️ Sinar Gamma</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Kolom Kanan: Aplikasi (Source) -->
+                                <div class="applications-column">
+                                    <h4>Aplikasi & Pemanfaatan</h4>
+                                    <div class="applications-box">
+                                        <div class="drag-item" draggable="true" data-correct="xray">Pemeriksaan Medis (Radiologi)</div>
+                                        <div class="drag-item" draggable="true" data-correct="radio">Siaran Radio & TV</div>
+                                        <div class="drag-item" draggable="true" data-correct="microwave">Memasak (Oven Microwave)</div>
+                                        <div class="drag-item" draggable="true" data-correct="infrared">Termostat & Sensor Suhu</div>
+                                        <div class="drag-item" draggable="true" data-correct="visible">Fotografi & Penglihatan</div>
+                                        <div class="drag-item" draggable="true" data-correct="gamma">Sterilisasi & Terapi Kanker</div>
+                                        <div class="drag-item" draggable="true" data-correct="ultraviolet">Desinfeksi & Tabir Surya</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="matching-feedback">
+                                <p id="matching-feedback-text"></p>
+                                <button class="btn-reset" onclick="resetMatching()">Reset Pencocokan</button>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Sebelumnya</button>
+                            <button class="btn-nav primary" onclick="nextStep()">Selanjutnya →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Kuis Interaktif -->
+                    <div id="step-4" class="learning-step">
+                        <div class="step-header">
+                            <h3>Langkah 4: Kuis Interaktif</h3>
+                            <p class="step-description">Jawab pertanyaan di bawah untuk menguji pemahaman Anda</p>
+                        </div>
+
+                        <div class="step-content quiz-container">
+                            <!-- Quiz Item 1 -->
+                            <div class="quiz-item">
+                                <h4>Soal 1: Urutan Spektrum Elektromagnetik</h4>
+                                <p class="question">Urutan spektrum elektromagnetik dari panjang gelombang terpanjang ke terpendek adalah:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="a" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>A. Radio → Microwave → Inframerah → Cahaya Tampak → Ultraviolet → Sinar-X → Sinar Gamma</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="b" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>B. Sinar Gamma → Sinar-X → Ultraviolet → Cahaya Tampak → Inframerah → Microwave → Radio</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="c" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>C. Microwave → Radio → Inframerah → Cahaya Tampak → Ultraviolet → Sinar-X → Sinar Gamma</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="d" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>D. Cahaya Tampak → Radio → Microwave → Inframerah → Ultraviolet → Sinar-X → Sinar Gamma</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-1"></div>
+                            </div>
+
+                            <!-- Quiz Item 2 -->
+                            <div class="quiz-item">
+                                <h4>Soal 2: Hubungan Panjang Gelombang dan Frekuensi</h4>
+                                <p class="question">Jika panjang gelombang meningkat, maka frekuensi akan:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="a" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>A. Meningkat</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="b" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>B. Menurun</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="c" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>C. Tetap sama</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="d" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>D. Tidak dapat diprediksi</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-2"></div>
+                            </div>
+
+                            <!-- Quiz Item 3 -->
+                            <div class="quiz-item">
+                                <h4>Soal 3: Spektrum dengan Energi Tertinggi</h4>
+                                <p class="question">Spektrum elektromagnetik manakah yang memiliki energi foton tertinggi?</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="a" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>A. Radio</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="b" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>B. Cahaya Tampak</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="c" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>C. Sinar-X</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="d" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>D. Sinar Gamma</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-3"></div>
+                            </div>
+
+                            <!-- Quiz Item 4 -->
+                            <div class="quiz-item">
+                                <h4>Soal 4: Aplikasi Inframerah</h4>
+                                <p class="question">Aplikasi inframerah dalam kehidupan sehari-hari adalah:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="a" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>A. Siaran televisi</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="b" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>B. Sterilisasi alat medis</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="c" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>C. Remote control dan termostat</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="d" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>D. Pemeriksaan tulang (radiologi)</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-4"></div>
+                            </div>
+
+                            <!-- Quiz Item 5 -->
+                            <div class="quiz-item">
+                                <h4>Soal 5: Bahaya Sinar Ultraviolet</h4>
+                                <p class="question">Bahaya utama sinar ultraviolet bagi manusia adalah:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="a" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>A. Menyebabkan keracunan makanan</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="b" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>B. Merusak pendengaran</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="c" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>C. Meningkatkan tekanan darah</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="d" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>D. Dapat menyebabkan kanker kulit</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-5"></div>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Sebelumnya</button>
+                            <button class="btn-nav primary" onclick="calculateScore()">Selesaikan & Lihat Hasil →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Hasil & Ringkasan -->
+                    <div id="step-5" class="learning-step">
+                        <div class="step-header">
+                            <h3>Langkah 5: Ringkasan Hasil Belajar</h3>
+                            <p class="step-description">Lihat skor dan ringkasan performa pembelajaran Anda</p>
+                        </div>
+
+                        <div class="step-content results-container">
+                            <!-- Score Circle -->
+                            <div class="score-circle">
+                                <div class="score-value" id="score-value">0%</div>
+                                <div class="score-label">Skor Kuis</div>
+                            </div>
+
+                            <!-- Results Summary -->
+                            <div class="results-summary">
+                                <h4>📊 Ringkasan Hasil</h4>
+                                <div class="summary-item">
+                                    <span>Soal Dijawab Benar:</span>
+                                    <strong id="correct-answers">0 / 5</strong>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Soal Dijawab Salah:</span>
+                                    <strong id="wrong-answers">0 / 5</strong>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Pencocokan Aplikasi:</span>
+                                    <strong id="matching-score">Belum dinilai</strong>
+                                </div>
+                            </div>
+
+                            <!-- Performance Feedback -->
+                            <div class="performance-feedback" id="performance-feedback">
+                                <p>Terus belajar dan tingkatkan pemahaman Anda tentang spektrum gelombang elektromagnetik!</p>
+                            </div>
+
+                            <!-- Certificate-like Box -->
+                            <div class="achievement-box">
+                                <h4>🏆 Pencapaian</h4>
+                                <p id="achievement-text">Anda telah menyelesaikan pembelajaran spektrum gelombang elektromagnetik!</p>
+                            </div>
+
+                            <!-- Rekomendasi Tindak Lanjut -->
+                            <div class="recommendations">
+                                <h4>💡 Rekomendasi Tindak Lanjut</h4>
+                                <ul id="recommendation-list">
+                                    <li>Pelajari lebih lanjut tentang efek fotolistrik</li>
+                                    <li>Eksplorasi aplikasi sinar-X dalam industri</li>
+                                    <li>Pahami mekanisme radiasi Matahari</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="resetLearning()">🔄 Reset & Ulangi Pembelajaran</button>
+                            <button class="btn-nav primary" onclick="navigateTo('home-page')">🏠 Kembali ke Home</button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </section>
+    </div>
+
+    <!-- Loading Screen (jika diperlukan) -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="spinner"></div>
+        <p>Memuat data spektrum...</p>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
