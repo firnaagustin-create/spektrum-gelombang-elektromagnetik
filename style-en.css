@@ -1,6 +1,6 @@
 /* ================================================================
    ELECTROMAGNETIC WAVE SPECTRUM - STYLESHEET
-   Interactive Learning Media Grade XII High School
+   Interactive Learning Media - 12th Grade High School
    ================================================================
    
    CSS Structure:
@@ -22,7 +22,7 @@
    ================================================================ */
 
 :root {
-    /* Primary Colors (Spectrum) */
+    /* Main Colors (Spectrum) */
     --color-radio: #FF6B6B;
     --color-microwave: #FFA500;
     --color-infrared: #FF8C42;
@@ -31,7 +31,7 @@
     --color-xray: #3A86FF;
     --color-gamma: #00D9FF;
 
-    /* Education Colors (Consistent) */
+    /* Educational Colors (Consistent) */
     --primary-color: #5E72E4;
     --secondary-color: #2DCA73;
     --success-color: #2DCA73;
@@ -1383,7 +1383,7 @@ strong {
         font-size: var(--font-size-xs);
     }
 
-    /* Hide specific sections on mobile */
+    /* Hide certain columns on mobile */
     .summary-item {
         flex-direction: column;
     }
