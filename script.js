@@ -1,12 +1,12 @@
 /* ================================================================
-   SPEKTRUM GELOMBANG ELEKTROMAGNETIK - JAVASCRIPT
-   Media Pembelajaran Interaktif Kelas XII SMA
+   ELECTROMAGNETIC WAVE SPECTRUM - JAVASCRIPT
+   Interactive Learning Media - 12th Grade High School
    ================================================================
    
-   Struktur JavaScript:
-   1. Data Spektrum & Konstanta Fisika
-   2. Inisialisasi & Setup
-   3. Navigasi & Page Management
+   JavaScript Structure:
+   1. Spectrum Data & Physics Constants
+   2. Initialization & Setup
+   3. Navigation & Page Management
    4. Exploration Mode Functions
    5. Learning Mode Functions
    6. Wave Visualization & Canvas
@@ -17,30 +17,30 @@
    ================================================================ */
 
 /* ================================================================
-   1. DATA SPEKTRUM & KONSTANTA FISIKA
+   1. SPECTRUM DATA & PHYSICS CONSTANTS
    ================================================================ */
 
-// Konstanta fisika
-const PLANCK_CONSTANT = 6.626e-34;  // J·s (Konstanta Planck)
-const SPEED_OF_LIGHT = 3e8;         // m/s (Kecepatan cahaya)
-const EV_TO_JOULE = 1.602e-19;      // Konversi eV ke Joule
+// Physics Constants
+const PLANCK_CONSTANT = 6.626e-34;  // J·s (Planck constant)
+const SPEED_OF_LIGHT = 3e8;         // m/s (Speed of light)
+const EV_TO_JOULE = 1.602e-19;      // eV to Joule conversion
 
-// Data spektrum elektromagnetik
+// Electromagnetic Spectrum Data
 const spectrumData = [
     {
         id: 0,
         name: "Radio",
         icon: "📻",
-        wavelengthMin: 1,           // dalam meter
+        wavelengthMin: 1,           // in meters
         wavelengthMax: 1000,
-        frequencyMin: 3e5,          // dalam Hz
+        frequencyMin: 3e5,          // in Hz
         frequencyMax: 3e9,
-        energyMin: 1.24e-6,         // dalam eV
+        energyMin: 1.24e-6,         // in eV
         energyMax: 1.24e-3,
-        source: "Pemancar radio, antena, objek panas di ruang angkasa",
-        application: "Siaran radio, televisi, komunikasi nirkabel",
-        benefit: "Memungkinkan komunikasi jarak jauh, broadcasting",
-        danger: "Umumnya tidak berbahaya pada intensitas normal"
+        source: "Radio transmitters, antennas, warm astronomical objects",
+        application: "Radio broadcasts, television, wireless communications",
+        benefit: "Enables long-distance communication, broadcasting",
+        danger: "Generally harmless at normal intensities"
     },
     {
         id: 1,
@@ -52,14 +52,14 @@ const spectrumData = [
         frequencyMax: 3e11,
         energyMin: 1.24e-4,
         energyMax: 1.24e-1,
-        source: "Oven microwave, satelit, radar",
-        application: "Memasak (oven microwave), komunikasi satelit, radar",
-        benefit: "Memasak cepat, deteksi objek, komunikasi satelit",
-        danger: "Paparan tinggi dapat merusak jaringan biologis"
+        source: "Microwave ovens, satellites, radar",
+        application: "Cooking (microwave ovens), satellite communications, radar",
+        benefit: "Fast cooking, object detection, satellite communication",
+        danger: "High exposure can cause damage to biological tissues"
     },
     {
         id: 2,
-        name: "Inframerah",
+        name: "Infrared",
         icon: "🔥",
         wavelengthMin: 7e-7,
         wavelengthMax: 1e-3,
@@ -67,14 +67,14 @@ const spectrumData = [
         frequencyMax: 4.3e14,
         energyMin: 1.24e-1,
         energyMax: 1.77,
-        source: "Objek panas, matahari, lampu pijar",
-        application: "Remote control, termostat, thermal imaging, pemanas",
-        benefit: "Penginderaan suhu, diagnostik medis, pemanasan",
-        danger: "Paparan intensitas tinggi dapat merusak jaringan"
+        source: "Hot objects, the sun, incandescent bulbs",
+        application: "Remote controls, thermostats, thermal imaging, heaters",
+        benefit: "Temperature sensing, medical diagnostics, heating",
+        danger: "High-intensity exposure can damage tissues"
     },
     {
         id: 3,
-        name: "Cahaya Tampak",
+        name: "Visible Light",
         icon: "👁️",
         wavelengthMin: 4e-7,
         wavelengthMax: 7e-7,
@@ -82,10 +82,10 @@ const spectrumData = [
         frequencyMax: 7.5e14,
         energyMin: 1.8,
         energyMax: 3.1,
-        source: "Matahari, bintang, lampu, api",
-        application: "Penglihatan manusia, fotografi, iluminasi",
-        benefit: "Memungkinkan kita melihat dunia, fotosintesis tumbuhan",
-        danger: "Paparan cahaya terlalu terang dapat merusak mata"
+        source: "The sun, stars, lamps, fire",
+        application: "Human vision, photography, illumination",
+        benefit: "Allows us to see the world, plant photosynthesis",
+        danger: "Exposure to overly bright light can cause eye damage"
     },
     {
         id: 4,
@@ -97,14 +97,14 @@ const spectrumData = [
         frequencyMax: 3e16,
         energyMin: 3.1,
         energyMax: 124,
-        source: "Matahari, lampu UV, bintang",
-        application: "Desinfeksi, sterilisasi, deteksi uang palsu, tabir surya",
-        benefit: "Pembunuhan bakteri, produksi vitamin D",
-        danger: "Dapat menyebabkan kanker kulit, kerusakan mata"
+        source: "The sun, UV lamps, stars",
+        application: "Disinfection, sterilization, counterfeit money detection, sunscreen",
+        benefit: "Kills bacteria, stimulates Vitamin D production",
+        danger: "Can cause skin cancer, eye damage"
     },
     {
         id: 5,
-        name: "Sinar-X",
+        name: "X-ray",
         icon: "🩻",
         wavelengthMin: 1e-12,
         wavelengthMax: 1e-8,
@@ -112,14 +112,14 @@ const spectrumData = [
         frequencyMax: 3e19,
         energyMin: 124,
         energyMax: 1.24e5,
-        source: "Tabung sinar-X, bintang neutron, ledakan nuklir",
-        application: "Pemeriksaan medis (radiologi), kristalografi, analisis material",
-        benefit: "Diagnostik penyakit, penelitian material",
-        danger: "Radiasi ionisasi, dapat menyebabkan kanker jika paparan tinggi"
+        source: "X-ray tubes, neutron stars, nuclear detonations",
+        application: "Medical check-ups (radiology), crystallography, material analysis",
+        benefit: "Disease diagnostics, material research",
+        danger: "Ionizing radiation, can cause cancer with high exposure"
     },
     {
         id: 6,
-        name: "Sinar Gamma",
+        name: "Gamma Rays",
         icon: "☢️",
         wavelengthMin: 1e-16,
         wavelengthMax: 1e-12,
@@ -127,47 +127,47 @@ const spectrumData = [
         frequencyMax: 3e24,
         energyMin: 1.24e5,
         energyMax: 1.24e10,
-        source: "Peluruhan radioaktif, ledakan supernova, ledakan nuklir",
-        application: "Sterilisasi alat medis, terapi kanker, penelitian nuklir",
-        benefit: "Terapi kanker, sterilisasi, penelitian fisika inti",
-        danger: "Radiasi ionisasi sangat tinggi, sangat berbahaya untuk manusia"
+        source: "Radioactive decay, supernova explosions, nuclear detonations",
+        application: "Medical equipment sterilization, cancer therapy, nuclear research",
+        benefit: "Cancer therapy, sterilization, core physics research",
+        danger: "Extremely high ionizing radiation, highly dangerous to humans"
     }
 ];
 
-// Data pencocokan aplikasi dengan spektrum
+// Application Mapping Data with Spectrum
 const matchingData = {
-    radio: "Siaran Radio & TV",
-    microwave: "Memasak (Oven Microwave)",
-    infrared: "Termostat & Sensor Suhu",
-    visible: "Fotografi & Penglihatan",
-    ultraviolet: "Desinfeksi & Tabir Surya",
-    xray: "Pemeriksaan Medis (Radiologi)",
-    gamma: "Sterilisasi & Terapi Kanker"
+    radio: "Radio & TV Broadcasts",
+    microwave: "Cooking (Microwave Oven)",
+    infrared: "Thermostat & Temperature Sensors",
+    visible: "Photography & Vision",
+    ultraviolet: "Disinfection & Sunscreen",
+    xray: "Medical Check-ups (Radiology)",
+    gamma: "Sterilization & Cancer Therapy"
 };
 
 // State management
-let currentSpectrum = 3; // Mulai dari Cahaya Tampak
+let currentSpectrum = 3; // Starts from Visible Light
 let currentStep = 1;
 let quizScores = {};
 let matchingCorrect = 0;
 let matchingTotal = 7;
 
 /* ================================================================
-   2. INISIALISASI & SETUP
+   2. INITIALIZATION & SETUP
    ================================================================ */
 
-// Jalankan ketika DOM siap
+// Run when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM siap, inisialisasi aplikasi...');
+    console.log('DOM ready, initializing application...');
     
     // Setup event listeners
     setupEventListeners();
     
-    // Inisialisasi eksplorasi mode
+    // Initialize exploration mode
     updateSpectrum(3);
     updateLearningSpectrum(3);
     
-    // Inisialisasi canvas
+    // Initialize canvas
     initializeCanvases();
     
     // Animate wave
@@ -176,28 +176,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /* ================================================================
-   3. NAVIGASI & PAGE MANAGEMENT
+   3. NAVIGATION & PAGE MANAGEMENT
    ================================================================ */
 
 /**
- * Navigasi ke halaman tertentu
- * @param {string} pageId - ID halaman yang ingin dituju
+ * Navigate to a specific page
+ * @param {string} pageId - ID of the target page
  */
 function navigateTo(pageId) {
-    // Sembunyikan semua halaman
+    // Hide all pages
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => page.classList.remove('active'));
     
-    // Tampilkan halaman yang dipilih
+    // Display the selected page
     const targetPage = document.getElementById(pageId);
     if (targetPage) {
         targetPage.classList.add('active');
-        console.log(`Navigasi ke: ${pageId}`);
+        console.log(`Navigating to: ${pageId}`);
         
-        // Scroll ke atas
+        // Scroll to top
         window.scrollTo(0, 0);
         
-        // Update canvas jika perlu
+        // Update canvas if needed
         if (pageId === 'exploration-mode') {
             setTimeout(() => {
                 initializeCanvases();
@@ -212,8 +212,8 @@ function navigateTo(pageId) {
    ================================================================ */
 
 /**
- * Update spektrum di mode eksplorasi
- * @param {number} index - Index spektrum (0-6)
+ * Update spectrum in exploration mode
+ * @param {number} index - Spectrum index (0-6)
  */
 function updateSpectrum(index) {
     currentSpectrum = parseInt(index);
@@ -222,7 +222,7 @@ function updateSpectrum(index) {
     // Update slider position indicator
     updateSliderLabel(currentSpectrum, 'spectrum-slider');
     
-    // Ambil nilai tengah spektrum untuk visualisasi
+    // Take the midpoint value of the spectrum for visualization
     const wavelength = (spectrum.wavelengthMin + spectrum.wavelengthMax) / 2;
     const frequency = SPEED_OF_LIGHT / wavelength;
     const energy = (PLANCK_CONSTANT * frequency) / EV_TO_JOULE;
@@ -244,16 +244,16 @@ function updateSpectrum(index) {
     document.getElementById('info-benefit').textContent = spectrum.benefit;
     document.getElementById('info-danger').textContent = spectrum.danger;
     
-    // Update warna background
+    // Update background color
     updateSpectrumColor(currentSpectrum);
     
-    // Trigger animasi
+    // Trigger animation
     animateWave();
 }
 
 /**
- * Update spektrum di mode pembelajaran
- * @param {number} index - Index spektrum (0-6)
+ * Update spectrum in learning mode
+ * @param {number} index - Spectrum index (0-6)
  */
 function updateLearningSpectrum(index) {
     currentSpectrum = parseInt(index);
@@ -262,7 +262,7 @@ function updateLearningSpectrum(index) {
     // Update slider position indicator
     updateSliderLabel(currentSpectrum, 'learning-slider');
     
-    // Ambil nilai tengah spektrum
+    // Take the midpoint value of the spectrum
     const wavelength = (spectrum.wavelengthMin + spectrum.wavelengthMax) / 2;
     const frequency = SPEED_OF_LIGHT / wavelength;
     const energy = (PLANCK_CONSTANT * frequency) / EV_TO_JOULE;
@@ -279,25 +279,24 @@ function updateLearningSpectrum(index) {
     document.getElementById('learning-info-frequency').textContent = formatFrequencyRange(spectrum.frequencyMin, spectrum.frequencyMax);
     document.getElementById('learning-info-energy').textContent = formatEnergyRange(spectrum.energyMin, spectrum.energyMax);
     
-    // Trigger animasi
+    // Trigger animation
     animateLearningWave();
 }
 
 /**
- * Update warna spektrum berdasarkan index
+ * Update spectrum color based on index
  */
 function updateSpectrumColor(index) {
     const colors = [
         '#FF6B6B', // Radio
         '#FFA500', // Microwave
-        '#FF8C42', // Inframerah
-        '#FFD700', // Cahaya Tampak
+        '#FF8C42', // Infrared
+        '#FFD700', // Visible Light
         '#9D4EDD', // Ultraviolet
-        '#3A86FF', // Sinar-X
-        '#00D9FF'  // Sinar Gamma
+        '#3A86FF', // X-ray
+        '#00D9FF'  // Gamma Rays
     ];
     
-    const spectrum = spectrumData[index];
     const infoCard = document.querySelector('.spectrum-info-section');
     if (infoCard) {
         infoCard.style.borderTop = `5px solid ${colors[index]}`;
@@ -305,7 +304,7 @@ function updateSpectrumColor(index) {
 }
 
 /**
- * Update label slider yang aktif
+ * Update active slider label
  */
 function updateSliderLabel(index, sliderId) {
     const sliders = document.querySelectorAll(`#${sliderId}`).length > 0 
@@ -322,50 +321,50 @@ function updateSliderLabel(index, sliderId) {
    ================================================================ */
 
 /**
- * Lanjut ke langkah berikutnya
+ * Proceed to the next step
  */
 function nextStep() {
     if (currentStep < 5) {
-        // Sembunyikan step saat ini
+        // Hide the current step
         document.getElementById(`step-${currentStep}`).classList.remove('active');
         
         // Update step
         currentStep++;
         
-        // Tampilkan step berikutnya
+        // Display the next step
         document.getElementById(`step-${currentStep}`).classList.add('active');
         
         // Update progress bar
         updateProgressBar();
         
-        // Scroll ke atas
+        // Scroll to top
         window.scrollTo(0, 0);
         
-        console.log(`Pindah ke step: ${currentStep}`);
+        console.log(`Moved to step: ${currentStep}`);
     }
 }
 
 /**
- * Kembali ke langkah sebelumnya
+ * Return to the previous step
  */
 function previousStep() {
     if (currentStep > 1) {
-        // Sembunyikan step saat ini
+        // Hide the current step
         document.getElementById(`step-${currentStep}`).classList.remove('active');
         
         // Update step
         currentStep--;
         
-        // Tampilkan step sebelumnya
+        // Display the previous step
         document.getElementById(`step-${currentStep}`).classList.add('active');
         
         // Update progress bar
         updateProgressBar();
         
-        // Scroll ke atas
+        // Scroll to top
         window.scrollTo(0, 0);
         
-        console.log(`Kembali ke step: ${currentStep}`);
+        console.log(`Returned to step: ${currentStep}`);
     }
 }
 
@@ -382,12 +381,12 @@ function updateProgressBar() {
     }
     
     if (currentStepSpan) {
-        currentStepSpan.textContent = `Langkah ${currentStep}`;
+        currentStepSpan.textContent = `Step ${currentStep}`;
     }
 }
 
 /**
- * Reset pembelajaran
+ * Reset learning session
  */
 function resetLearning() {
     // Reset step
@@ -406,10 +405,10 @@ function resetLearning() {
     // Reset matching
     resetMatching();
     
-    // Scroll ke atas
+    // Scroll to top
     window.scrollTo(0, 0);
     
-    console.log('Pembelajaran direset');
+    console.log('Learning session reset');
 }
 
 /* ================================================================
@@ -422,7 +421,7 @@ let wavePhase = 0;
 let learningWavePhase = 0;
 
 /**
- * Inisialisasi canvas
+ * Initialize canvas elements
  */
 function initializeCanvases() {
     const canvas = document.getElementById('wave-canvas');
@@ -438,7 +437,7 @@ function initializeCanvases() {
 }
 
 /**
- * Animasi gelombang di mode eksplorasi
+ * Animate wave in exploration mode
  */
 function animateWave() {
     const canvas = document.getElementById('wave-canvas');
@@ -447,7 +446,7 @@ function animateWave() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    // Hentikan animasi sebelumnya
+    // Stop previous animation
     if (waveAnimationId) {
         cancelAnimationFrame(waveAnimationId);
     }
@@ -471,7 +470,7 @@ function animateWave() {
 }
 
 /**
- * Animasi gelombang di mode pembelajaran
+ * Animate wave in learning mode
  */
 function animateLearningWave() {
     const canvas = document.getElementById('learning-wave-canvas');
@@ -480,7 +479,7 @@ function animateLearningWave() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    // Hentikan animasi sebelumnya
+    // Stop previous animation
     if (learningWaveAnimationId) {
         cancelAnimationFrame(learningWaveAnimationId);
     }
@@ -504,24 +503,24 @@ function animateLearningWave() {
 }
 
 /**
- * Gambar bentuk gelombang
+ * Draw wave shapes
  */
 function drawWaveform(ctx, canvas, phase, spectrumIndex) {
     const spectrum = spectrumData[spectrumIndex];
     const colors = [
         '#FF6B6B', // Radio
         '#FFA500', // Microwave
-        '#FF8C42', // Inframerah
-        '#FFD700', // Cahaya Tampak
+        '#FF8C42', // Infrared
+        '#FFD700', // Visible Light
         '#9D4EDD', // Ultraviolet
-        '#3A86FF', // Sinar-X
-        '#00D9FF'  // Sinar Gamma
+        '#3A86FF', // X-ray
+        '#00D9FF'  // Gamma Rays
     ];
     
     const centerY = canvas.height / 2;
     const amplitude = canvas.height / 4;
     
-    // Frekuensi gelombang meningkat seiring dengan spektrum
+    // Wave frequency increases with the spectrum hierarchy
     const frequency = 0.5 + (spectrumIndex * 0.3);
     const wavelength = (canvas.width / (5 + spectrumIndex));
     
@@ -585,7 +584,7 @@ function drawWaveform(ctx, canvas, phase, spectrumIndex) {
    ================================================================ */
 
 /**
- * Check jawaban kuis
+ * Verify quiz answer
  */
 function checkQuiz(quizName, correctAnswer) {
     const selectedAnswer = document.querySelector(`input[name="${quizName}"]:checked`);
@@ -598,29 +597,29 @@ function checkQuiz(quizName, correctAnswer) {
     
     const isCorrect = selected === correctAnswer;
     
-    // Simpan score
+    // Save score status
     quizScores[quizName] = isCorrect;
     
-    // Tampilkan feedback
+    // Render feedback
     feedbackElement.classList.add('show');
     if (isCorrect) {
         feedbackElement.classList.add('correct');
         feedbackElement.classList.remove('incorrect');
-        feedbackElement.textContent = '✓ Jawaban benar! Bagus!';
+        feedbackElement.textContent = '✓ Correct answer! Great job!';
     } else {
         feedbackElement.classList.add('incorrect');
         feedbackElement.classList.remove('correct');
-        feedbackElement.textContent = '✗ Jawaban salah. Silakan coba lagi atau pelajari materi lebih lanjut.';
+        feedbackElement.textContent = '✗ Incorrect answer. Please try again or review the study material.';
     }
     
-    console.log(`Quiz ${quizName}: ${isCorrect ? 'Benar' : 'Salah'}`);
+    console.log(`Quiz ${quizName}: ${isCorrect ? 'Correct' : 'Incorrect'}`);
 }
 
 /**
- * Hitung skor akhir
+ * Calculate final evaluation score
  */
 function calculateScore() {
-    // Hitung soal benar
+    // Count correctly answered questions
     let correctCount = 0;
     for (let key in quizScores) {
         if (quizScores[key]) correctCount++;
@@ -629,44 +628,44 @@ function calculateScore() {
     const totalQuestions = Object.keys(quizScores).length || 5;
     const score = Math.round((correctCount / totalQuestions) * 100);
     
-    // Hitung matching score
+    // Calculate matching activity score
     const matchingPercentage = Math.round((matchingCorrect / matchingTotal) * 100);
     
-    // Update hasil
+    // Update display stats
     document.getElementById('score-value').textContent = score + '%';
     document.getElementById('correct-answers').textContent = `${correctCount} / ${totalQuestions}`;
     document.getElementById('wrong-answers').textContent = `${totalQuestions - correctCount} / ${totalQuestions}`;
     document.getElementById('matching-score').textContent = `${matchingPercentage}%`;
     
-    // Feedback berdasarkan skor
+    // Set dynamic performance feedback
     const feedbackElement = document.getElementById('performance-feedback');
     let feedback = '';
     
     if (score >= 80) {
-        feedback = '🌟 Luar biasa! Anda memiliki pemahaman yang sangat baik tentang spektrum gelombang elektromagnetik!';
+        feedback = '🌟 Outstanding! You have an excellent understanding of the electromagnetic wave spectrum!';
     } else if (score >= 60) {
-        feedback = '👍 Bagus! Pemahaman Anda sudah cukup baik. Pelajari lebih lanjut untuk meningkatkan pemahaman.';
+        feedback = '👍 Good job! Your understanding is quite solid. Keep reviewing to achieve complete mastery.';
     } else if (score >= 40) {
-        feedback = '📚 Anda sudah membuat kemajuan. Terus belajar dan pelajari kembali materi yang belum dipahami.';
+        feedback = '📚 You are making progress. Try reviewing the topics you found challenging once more.';
     } else {
-        feedback = '💪 Jangan menyerah! Ulangi pembelajaran dan coba lagi untuk hasil yang lebih baik.';
+        feedback = '💪 Do not give up! Restart the module and try again for a better outcome next time.';
     }
     
     if (feedbackElement) {
         feedbackElement.innerHTML = `<p>${feedback}</p>`;
     }
     
-    // Rekomendasi
+    // Generate tailored recommendations
     updateRecommendations(score, matchingPercentage);
     
-    // Lanjut ke step 5
+    // Move forward to step 5
     nextStep();
     
-    console.log(`Skor: ${score}%, Matching: ${matchingPercentage}%`);
+    console.log(`Score: ${score}%, Matching: ${matchingPercentage}%`);
 }
 
 /**
- * Update rekomendasi
+ * Update recommendations list based on results
  */
 function updateRecommendations(score, matchingScore) {
     const recommendationList = document.getElementById('recommendation-list');
@@ -675,16 +674,16 @@ function updateRecommendations(score, matchingScore) {
     let recommendations = [];
     
     if (score < 60) {
-        recommendations.push('Ulangi pembelajaran dari awal, fokus pada hubungan panjang gelombang dan frekuensi');
+        recommendations.push('Restart the learning section, focusing closely on the mathematical relationships between wavelength and frequency.');
     }
     
     if (matchingScore < 70) {
-        recommendations.push('Perkuat pemahaman tentang aplikasi praktis setiap spektrum');
+        recommendations.push('Strengthen your memory regarding the practical applications of each wave spectrum category.');
     }
     
-    recommendations.push('Pelajari lebih lanjut tentang efek fotolistrik');
-    recommendations.push('Eksplorasi aplikasi sinar-X dalam industri dan kedokteran');
-    recommendations.push('Pahami mekanisme radiasi Matahari dan energi alternatif');
+    recommendations.push('Explore the advanced concepts regarding the photoelectric effect.');
+    recommendations.push('Research the broader applications of X-rays in fields like industrial analysis and advanced medicine.');
+    recommendations.push('Understand the physical dynamics of Solar radiation and its utilization in clean energy.');
     
     recommendationList.innerHTML = recommendations
         .map(rec => `<li>${rec}</li>`)
@@ -698,7 +697,7 @@ function updateRecommendations(score, matchingScore) {
 let draggedElement = null;
 
 /**
- * Setup drag and drop
+ * Setup drag and drop events
  */
 function setupDragAndDrop() {
     const dragItems = document.querySelectorAll('.drag-item');
@@ -760,13 +759,13 @@ function handleDrop(e) {
         
         const droppedItems = this.querySelector('.dropped-items');
         
-        // Clone element
+        // Clone item element
         const clone = draggedElement.cloneNode(true);
         clone.classList.remove('dragging');
         clone.classList.add('dropped-item');
         clone.draggable = false;
         
-        // Add button untuk remove
+        // Add item remove button
         const removeBtn = document.createElement('button');
         removeBtn.textContent = '×';
         removeBtn.onclick = function() {
@@ -775,20 +774,20 @@ function handleDrop(e) {
         };
         clone.appendChild(removeBtn);
         
-        // Add ke drop zone
+        // Append to current drop zone
         droppedItems.appendChild(clone);
         
-        // Check if correct
+        // Validate matching accuracy
         if (correctSpectrum === dropZoneSpectrum) {
             clone.style.backgroundColor = '#2DCA73'; // Success color
             matchingCorrect++;
-            console.log(`✓ Benar! ${draggedElement.textContent} cocok dengan ${this.querySelector('.spectrum-label').textContent}`);
+            console.log(`✓ Correct! ${draggedElement.textContent} fits inside ${this.querySelector('.spectrum-label').textContent}`);
         } else {
             clone.style.backgroundColor = '#F5365C'; // Error color
-            console.log(`✗ Salah! ${draggedElement.textContent} tidak cocok dengan ${this.querySelector('.spectrum-label').textContent}`);
+            console.log(`✗ Incorrect! ${draggedElement.textContent} does not fit inside ${this.querySelector('.spectrum-label').textContent}`);
         }
         
-        // Update status
+        // Update total status counter
         updateMatchingStatus();
     }
     
@@ -796,7 +795,7 @@ function handleDrop(e) {
 }
 
 /**
- * Reset matching
+ * Reset matching challenge activity
  */
 function resetMatching() {
     document.querySelectorAll('.dropped-items').forEach(container => {
@@ -808,7 +807,7 @@ function resetMatching() {
 }
 
 /**
- * Update status matching
+ * Refresh current match state text
  */
 function updateMatchingStatus() {
     const totalDropped = document.querySelectorAll('.dropped-item').length;
@@ -819,10 +818,10 @@ function updateMatchingStatus() {
             feedbackElement.textContent = '';
         } else if (totalDropped === matchingTotal) {
             const percentage = Math.round((matchingCorrect / matchingTotal) * 100);
-            feedbackElement.textContent = `✓ Pencocokan selesai! Anda mendapatkan ${percentage}% benar.`;
+            feedbackElement.textContent = `✓ Matching complete! You got ${percentage}% right.`;
             feedbackElement.style.color = '#2DCA73';
         } else {
-            feedbackElement.textContent = `Anda telah menempatkan ${totalDropped} item dari ${matchingTotal}`;
+            feedbackElement.textContent = `You have placed ${totalDropped} items out of ${matchingTotal}`;
         }
     }
 }
@@ -832,7 +831,7 @@ function updateMatchingStatus() {
    ================================================================ */
 
 /**
- * Format panjang gelombang
+ * Format wavelength numbers cleanly
  */
 function formatWavelength(wavelength) {
     if (wavelength >= 1) {
@@ -851,7 +850,7 @@ function formatWavelength(wavelength) {
 }
 
 /**
- * Format frekuensi
+ * Format frequency numbers dynamically
  */
 function formatFrequency(frequency) {
     if (frequency >= 1e9) {
@@ -866,7 +865,7 @@ function formatFrequency(frequency) {
 }
 
 /**
- * Format energi
+ * Format energy values smoothly
  */
 function formatEnergy(energy) {
     if (Math.abs(energy) < 0.01) {
@@ -879,14 +878,14 @@ function formatEnergy(energy) {
 }
 
 /**
- * Format rentang frekuensi
+ * Format string range boundaries for frequencies
  */
 function formatFrequencyRange(min, max) {
     return `${formatFrequency(min).split('×')[0].trim()} - ${formatFrequency(max).split('×')[0].trim()} × ${formatFrequency(max).split('×')[1]}`;
 }
 
 /**
- * Format rentang energi
+ * Format string range boundaries for energy
  */
 function formatEnergyRange(min, max) {
     return `${min.toFixed(2)} - ${max.toFixed(2)} eV`;
@@ -897,10 +896,10 @@ function formatEnergyRange(min, max) {
    ================================================================ */
 
 /**
- * Setup event listeners
+ * Bind action hooks to user interface events
  */
 function setupEventListeners() {
-    // Slider change
+    // Slider value changes
     const spectrumSlider = document.getElementById('spectrum-slider');
     if (spectrumSlider) {
         spectrumSlider.addEventListener('input', (e) => {
@@ -915,22 +914,22 @@ function setupEventListeners() {
         });
     }
     
-    // Drag and Drop
+    // Drag and Drop execution delay hook
     setTimeout(setupDragAndDrop, 100);
     
-    // Window resize
+    // Window responsive layout adjustments
     window.addEventListener('resize', () => {
         initializeCanvases();
     });
     
-    // Keyboard shortcuts
+    // Keyboard macro navigation
     document.addEventListener('keydown', (e) => {
-        // ESC: Kembali ke home
+        // ESC: Return back to home screen
         if (e.key === 'Escape') {
             navigateTo('home-page');
         }
         
-        // Next/Previous dengan arrow keys
+        // Navigation steps using the arrow keys
         if (e.key === 'ArrowRight' && currentStep < 5) {
             nextStep();
         }
@@ -940,7 +939,7 @@ function setupEventListeners() {
         }
     });
     
-    console.log('Event listeners setup selesai');
+    console.log('Event listeners successfully assigned');
 }
 
 /* ================================================================
@@ -948,7 +947,7 @@ function setupEventListeners() {
    ================================================================ */
 
 /**
- * Initialize pada halaman tertentu
+ * Trigger unique operations on individual active page switches
  */
 function onPageChange(pageId) {
     if (pageId === 'learning-mode') {
@@ -957,7 +956,7 @@ function onPageChange(pageId) {
     }
 }
 
-// Observer untuk perubahan halaman
+// Global active view layout class mutation tracking hook
 const pageObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
@@ -973,4 +972,4 @@ document.querySelectorAll('.page').forEach(page => {
     pageObserver.observe(page, { attributes: true });
 });
 
-console.log('Spektrum Gelombang Elektromagnetik - Script Loaded ✓');
+console.log('Electromagnetic Wave Spectrum - Script Loaded ✓');
