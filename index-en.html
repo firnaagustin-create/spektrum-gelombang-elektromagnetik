@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Learning Media: Electromagnetic Spectrum for Grade 12 High School">
+    <meta name="keywords" content="electromagnetic spectrum, waves, interactive learning, physics">
+    <title>Electromagnetic Spectrum - Interactive Learning Media</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main application container -->
+    <div id="app" class="app-container">
+        
+        <!-- ============================================
+             PAGE 1: HOME / MAIN MENU
+             ============================================ -->
+        <section id="home-page" class="page active">
+            <div class="home-container">
+                <!-- Header with logo and title -->
+                <header class="home-header">
+                    <div class="logo-container">
+                        <div class="logo-icon">⚡</div>
+                    </div>
+                    <h1 class="main-title">Electromagnetic Spectrum</h1>
+                    <p class="subtitle">Interactive Learning Media for Grade 12 Physics</p>
+                </header>
+
+                <!-- Main content with mode selection -->
+                <main class="home-content">
+                    <p class="welcome-text">
+                        Welcome! Choose the learning mode that suits your preference.
+                    </p>
+
+                    <!-- Mode Selection Cards -->
+                    <div class="mode-selection">
+                        <!-- Exploration Mode Card -->
+                        <div class="mode-card" onclick="navigateTo('exploration-mode')">
+                            <div class="mode-icon">🔍</div>
+                            <h2>Exploration Mode</h2>
+                            <p>Explore the electromagnetic spectrum freely. Drag the slider to see real-time changes in wavelength, frequency, and energy.</p>
+                            <button class="btn-mode primary">Start Exploring</button>
+                        </div>
+
+                        <!-- Structured Learning Mode Card -->
+                        <div class="mode-card" onclick="navigateTo('learning-mode')">
+                            <div class="mode-icon">📚</div>
+                            <h2>Learning Mode</h2>
+                            <p>Follow a structured learning path step by step. Complete observation tables, take quizzes, and review your learning results.</p>
+                            <button class="btn-mode secondary">Start Learning</button>
+                        </div>
+                    </div>
+
+                    <!-- Additional information -->
+                    <div class="info-box">
+                        <h3>📖 About This Learning Media</h3>
+                        <p>
+                            This media is designed to help students understand the electromagnetic spectrum through interactive visualization. 
+                            You can explore each type of spectrum (Radio, Microwave, Infrared, Visible Light, Ultraviolet, X-Ray, and Gamma Ray), 
+                            see how wavelength, frequency, and energy are interrelated, and learn practical applications of each spectrum.
+                        </p>
+                    </div>
+                </main>
+
+                <!-- Footer -->
+                <footer class="home-footer">
+                    <p>No installation required • Works offline • Responsive for all devices</p>
+                </footer>
+            </div>
+        </section>
+
+        <!-- ============================================
+             PAGE 2: EXPLORATION MODE
+             ============================================ -->
+        <section id="exploration-mode" class="page">
+            <div class="exploration-container">
+                <!-- Exploration Mode Header -->
+                <header class="mode-header">
+                    <button class="btn-nav btn-home" onclick="navigateTo('home-page')" title="Back to Home">
+                        🏠 Home
+                    </button>
+                    <h2>Exploration Mode - Electromagnetic Spectrum</h2>
+                    <div class="header-spacer"></div>
+                </header>
+
+                <!-- Main Content -->
+                <main class="exploration-content">
+                    <!-- Slider Section -->
+                    <section class="slider-section">
+                        <h3>Drag the Slider to Explore the Spectrum</h3>
+                        
+                        <!-- Interactive Slider -->
+                        <div class="slider-container">
+                            <div class="spectrum-bar">
+                                <!-- Spectrum bar with gradient -->
+                                <div class="spectrum-gradient"></div>
+                                
+                                <!-- Slider input -->
+                                <input 
+                                    type="range" 
+                                    id="spectrum-slider" 
+                                    class="slider-input"
+                                    min="0" 
+                                    max="6" 
+                                    value="3"
+                                    step="1"
+                                    oninput="updateSpectrum(this.value)"
+                                >
+                            </div>
+                            
+                            <!-- Spectrum labels below slider -->
+                            <div class="spectrum-labels">
+                                <span class="label" data-index="0">Radio</span>
+                                <span class="label" data-index="1">Microwave</span>
+                                <span class="label" data-index="2">Infrared</span>
+                                <span class="label" data-index="3">Visible Light</span>
+                                <span class="label" data-index="4">Ultraviolet</span>
+                                <span class="label" data-index="5">X-Ray</span>
+                                <span class="label" data-index="6">Gamma Ray</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Grid Layout: Wave Animation + Information -->
+                    <div class="exploration-grid">
+                        <!-- Left Column: Wave Animation -->
+                        <section class="visualization-section">
+                            <h3>Wave Visualization</h3>
+                            
+                            <!-- Canvas for wave animation -->
+                            <canvas 
+                                id="wave-canvas" 
+                                class="wave-canvas"
+                                width="400"
+                                height="150"
+                            ></canvas>
+                            
+                            <!-- Real-time wave information -->
+                            <div class="wave-info">
+                                <p>Wavelength (λ): <span id="wavelength-display" class="info-value">500 nm</span></p>
+                                <p>Frequency (f): <span id="frequency-display" class="info-value">6.0 × 10¹⁴ Hz</span></p>
+                                <p>Photon Energy (E): <span id="energy-display" class="info-value">3.97 eV</span></p>
+                                <p class="formula">E = hf (h = 6.626 × 10⁻³⁴ J·s)</p>
+                            </div>
+                        </section>
+
+                        <!-- Right Column: Spectrum Information -->
+                        <section class="spectrum-info-section">
+                            <h3 id="spectrum-name">Visible Light</h3>
+                            
+                            <!-- Spectrum icon -->
+                            <div class="spectrum-icon" id="spectrum-icon">👁️</div>
+                            
+                            <!-- Spectrum information card -->
+                            <div class="info-card">
+                                <div class="info-item">
+                                    <label>Wavelength Range:</label>
+                                    <span id="info-wavelength" class="info-value">400-700 nm</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Frequency Range:</label>
+                                    <span id="info-frequency" class="info-value">4.3 - 7.5 × 10¹⁴ Hz</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Photon Energy:</label>
+                                    <span id="info-energy" class="info-value">1.8 - 3.1 eV</span>
+                                </div>
+                            </div>
+
+                            <!-- Source and Applications -->
+                            <div class="details-box">
+                                <h4>📡 Source</h4>
+                                <p id="info-source">Sun, stars, lamps</p>
+                            </div>
+
+                            <div class="details-box">
+                                <h4>💡 Applications</h4>
+                                <p id="info-application">Human vision, photography, illumination</p>
+                            </div>
+
+                            <div class="details-box">
+                                <h4>✨ Benefits</h4>
+                                <p id="info-benefit">Enables us to see the world, photosynthesis in plants</p>
+                            </div>
+
+                            <div class="warning-box">
+                                <h4>⚠️ Potential Hazards</h4>
+                                <p id="info-danger">Excessive bright light can damage eyes</p>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+
+                <!-- Navigation Buttons -->
+                <footer class="exploration-footer">
+                    <button class="btn-nav" onclick="navigateTo('home-page')">← Back to Home</button>
+                    <button class="btn-nav primary" onclick="navigateTo('learning-mode')">Next to Learning Mode →</button>
+                </footer>
+            </div>
+        </section>
+
+        <!-- ============================================
+             PAGE 3: LEARNING MODE (WORKSHEET)
+             ============================================ -->
+        <section id="learning-mode" class="page">
+            <div class="learning-container">
+                <!-- Progress Indicator -->
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                    <div class="progress-text">
+                        <span id="current-step">Step 1</span> / <span id="total-steps">5</span>
+                    </div>
+                </div>
+
+                <!-- Header -->
+                <header class="mode-header">
+                    <button class="btn-nav btn-home" onclick="navigateTo('home-page')" title="Back to Home">
+                        🏠 Home
+                    </button>
+                    <h2>Learning Mode - Follow the Worksheet</h2>
+                    <div class="header-spacer"></div>
+                </header>
+
+                <!-- Learning Steps Content -->
+                <main class="learning-content">
+                    <!-- Step 1: Explore Spectrum -->
+                    <div id="step-1" class="learning-step active">
+                        <div class="step-header">
+                            <h3>Step 1: Explore the Electromagnetic Spectrum</h3>
+                            <p class="step-description">Learn about each type of spectrum by dragging the slider below</p>
+                        </div>
+
+                        <div class="step-content learning-exploration">
+                            <!-- Slider -->
+                            <div class="slider-container">
+                                <div class="spectrum-bar">
+                                    <div class="spectrum-gradient"></div>
+                                    <input 
+                                        type="range" 
+                                        id="learning-slider" 
+                                        class="slider-input"
+                                        min="0" 
+                                        max="6" 
+                                        value="3"
+                                        step="1"
+                                        oninput="updateLearningSpectrum(this.value)"
+                                    >
+                                </div>
+                                <div class="spectrum-labels">
+                                    <span class="label" data-index="0">Radio</span>
+                                    <span class="label" data-index="1">Microwave</span>
+                                    <span class="label" data-index="2">Infrared</span>
+                                    <span class="label" data-index="3">Visible Light</span>
+                                    <span class="label" data-index="4">Ultraviolet</span>
+                                    <span class="label" data-index="5">X-Ray</span>
+                                    <span class="label" data-index="6">Gamma Ray</span>
+                                </div>
+                            </div>
+
+                            <!-- Grid with Visualization and Info -->
+                            <div class="exploration-grid">
+                                <section class="visualization-section">
+                                    <h4>Wave Visualization</h4>
+                                    <canvas 
+                                        id="learning-wave-canvas" 
+                                        class="wave-canvas"
+                                        width="400"
+                                        height="120"
+                                    ></canvas>
+                                    <div class="wave-info">
+                                        <p>λ: <span id="learning-wavelength-display">500 nm</span></p>
+                                        <p>f: <span id="learning-frequency-display">6.0 × 10¹⁴ Hz</span></p>
+                                        <p>E: <span id="learning-energy-display">3.97 eV</span></p>
+                                    </div>
+                                </section>
+
+                                <section class="spectrum-info-section">
+                                    <h4 id="learning-spectrum-name">Visible Light</h4>
+                                    <div class="spectrum-icon" id="learning-spectrum-icon">👁️</div>
+                                    <div class="info-card">
+                                        <div class="info-item">
+                                            <label>Wavelength Range:</label>
+                                            <span id="learning-info-wavelength">400-700 nm</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Frequency Range:</label>
+                                            <span id="learning-info-frequency">4.3 - 7.5 × 10¹⁴ Hz</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Photon Energy:</label>
+                                            <span id="learning-info-energy">1.8 - 3.1 eV</span>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Previous</button>
+                            <button class="btn-nav primary" onclick="nextStep()">Next →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Observation Table -->
+                    <div id="step-2" class="learning-step">
+                        <div class="step-header">
+                            <h3>Step 2: Observation Table from Exploration</h3>
+                            <p class="step-description">Complete the table below with data from each spectrum you explored</p>
+                        </div>
+
+                        <div class="step-content observation-table">
+                            <div class="table-wrapper">
+                                <table class="observation-table" id="observation-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Spectrum Type</th>
+                                            <th>Wavelength (λ)</th>
+                                            <th>Frequency (f)</th>
+                                            <th>Energy (E)</th>
+                                            <th>Applications</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Radio</td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Microwave</td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Infrared</td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Visible Light</td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Ultraviolet</td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>X-Ray</td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>Gamma Ray</td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                            <td><input type="text" class="table-input" placeholder="Enter data"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Reflection Questions -->
+                            <div class="reflection-questions">
+                                <h4>Reflection Questions</h4>
+                                <div class="question-item">
+                                    <p><strong>1. What is the relationship between wavelength and frequency?</strong></p>
+                                    <textarea class="reflection-input" placeholder="Write your answer here..."></textarea>
+                                </div>
+                                <div class="question-item">
+                                    <p><strong>2. Why does photon energy increase with increasing frequency?</strong></p>
+                                    <textarea class="reflection-input" placeholder="Write your answer here..."></textarea>
+                                </div>
+                                <div class="question-item">
+                                    <p><strong>3. Which spectrum is most dangerous to humans and why?</strong></p>
+                                    <textarea class="reflection-input" placeholder="Write your answer here..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Previous</button>
+                            <button class="btn-nav primary" onclick="nextStep()">Next →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Application Matching (Drag & Drop) -->
+                    <div id="step-3" class="learning-step">
+                        <div class="step-header">
+                            <h3>Step 3: Match Applications with Spectrum</h3>
+                            <p class="step-description">Drag and drop applications to the correct spectrum type</p>
+                        </div>
+
+                        <div class="step-content matching-activity">
+                            <div class="matching-grid">
+                                <!-- Left Column: Spectrum (Target) -->
+                                <div class="spectrum-column">
+                                    <h4>Spectrum Types</h4>
+                                    <div class="spectrum-boxes">
+                                        <div class="drop-zone" data-spectrum="radio">
+                                            <div class="spectrum-label">📻 Radio</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="microwave">
+                                            <div class="spectrum-label">🌊 Microwave</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="infrared">
+                                            <div class="spectrum-label">🔥 Infrared</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="visible">
+                                            <div class="spectrum-label">👁️ Visible Light</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="ultraviolet">
+                                            <div class="spectrum-label">☀️ Ultraviolet</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="xray">
+                                            <div class="spectrum-label">🩻 X-Ray</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                        <div class="drop-zone" data-spectrum="gamma">
+                                            <div class="spectrum-label">☢️ Gamma Ray</div>
+                                            <div class="dropped-items"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column: Applications (Source) -->
+                                <div class="applications-column">
+                                    <h4>Applications & Uses</h4>
+                                    <div class="applications-box">
+                                        <div class="drag-item" draggable="true" data-correct="xray">Medical Imaging (Radiology)</div>
+                                        <div class="drag-item" draggable="true" data-correct="radio">Radio & TV Broadcasting</div>
+                                        <div class="drag-item" draggable="true" data-correct="microwave">Cooking (Microwave Oven)</div>
+                                        <div class="drag-item" draggable="true" data-correct="infrared">Thermostats & Temperature Sensors</div>
+                                        <div class="drag-item" draggable="true" data-correct="visible">Photography & Vision</div>
+                                        <div class="drag-item" draggable="true" data-correct="gamma">Sterilization & Cancer Therapy</div>
+                                        <div class="drag-item" draggable="true" data-correct="ultraviolet">Disinfection & Sunscreen</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="matching-feedback">
+                                <p id="matching-feedback-text"></p>
+                                <button class="btn-reset" onclick="resetMatching()">Reset Matching</button>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Previous</button>
+                            <button class="btn-nav primary" onclick="nextStep()">Next →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Interactive Quiz -->
+                    <div id="step-4" class="learning-step">
+                        <div class="step-header">
+                            <h3>Step 4: Interactive Quiz</h3>
+                            <p class="step-description">Answer the questions below to test your understanding</p>
+                        </div>
+
+                        <div class="step-content quiz-container">
+                            <!-- Quiz Item 1 -->
+                            <div class="quiz-item">
+                                <h4>Question 1: Order of Electromagnetic Spectrum</h4>
+                                <p class="question">The order of electromagnetic spectrum from longest to shortest wavelength is:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="a" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>A. Radio → Microwave → Infrared → Visible Light → Ultraviolet → X-Ray → Gamma Ray</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="b" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>B. Gamma Ray → X-Ray → Ultraviolet → Visible Light → Infrared → Microwave → Radio</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="c" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>C. Microwave → Radio → Infrared → Visible Light → Ultraviolet → X-Ray → Gamma Ray</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-1" value="d" onchange="checkQuiz('quiz-1', 'a')">
+                                        <span>D. Visible Light → Radio → Microwave → Infrared → Ultraviolet → X-Ray → Gamma Ray</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-1"></div>
+                            </div>
+
+                            <!-- Quiz Item 2 -->
+                            <div class="quiz-item">
+                                <h4>Question 2: Relationship of Wavelength and Frequency</h4>
+                                <p class="question">If wavelength increases, then frequency will:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="a" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>A. Increase</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="b" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>B. Decrease</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="c" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>C. Remain the same</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-2" value="d" onchange="checkQuiz('quiz-2', 'b')">
+                                        <span>D. Cannot be predicted</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-2"></div>
+                            </div>
+
+                            <!-- Quiz Item 3 -->
+                            <div class="quiz-item">
+                                <h4>Question 3: Spectrum with Highest Energy</h4>
+                                <p class="question">Which electromagnetic spectrum has the highest photon energy?</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="a" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>A. Radio</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="b" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>B. Visible Light</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="c" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>C. X-Ray</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-3" value="d" onchange="checkQuiz('quiz-3', 'd')">
+                                        <span>D. Gamma Ray</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-3"></div>
+                            </div>
+
+                            <!-- Quiz Item 4 -->
+                            <div class="quiz-item">
+                                <h4>Question 4: Infrared Applications</h4>
+                                <p class="question">An application of infrared in daily life is:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="a" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>A. Television broadcasting</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="b" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>B. Sterilization of medical instruments</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="c" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>C. Remote controls and thermostats</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-4" value="d" onchange="checkQuiz('quiz-4', 'c')">
+                                        <span>D. X-ray bone imaging</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-4"></div>
+                            </div>
+
+                            <!-- Quiz Item 5 -->
+                            <div class="quiz-item">
+                                <h4>Question 5: Dangers of Ultraviolet Radiation</h4>
+                                <p class="question">The main danger of ultraviolet radiation to humans is:</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="a" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>A. Causes food poisoning</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="b" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>B. Damages hearing</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="c" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>C. Increases blood pressure</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="quiz-5" value="d" onchange="checkQuiz('quiz-5', 'd')">
+                                        <span>D. Can cause skin cancer</span>
+                                    </label>
+                                </div>
+                                <div class="quiz-feedback" id="feedback-quiz-5"></div>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="previousStep()">← Previous</button>
+                            <button class="btn-nav primary" onclick="calculateScore()">Complete & View Results →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Results & Summary -->
+                    <div id="step-5" class="learning-step">
+                        <div class="step-header">
+                            <h3>Step 5: Learning Results Summary</h3>
+                            <p class="step-description">View your score and learning performance summary</p>
+                        </div>
+
+                        <div class="step-content results-container">
+                            <!-- Score Circle -->
+                            <div class="score-circle">
+                                <div class="score-value" id="score-value">0%</div>
+                                <div class="score-label">Quiz Score</div>
+                            </div>
+
+                            <!-- Results Summary -->
+                            <div class="results-summary">
+                                <h4>📊 Results Summary</h4>
+                                <div class="summary-item">
+                                    <span>Correct Answers:</span>
+                                    <strong id="correct-answers">0 / 5</strong>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Wrong Answers:</span>
+                                    <strong id="wrong-answers">0 / 5</strong>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Application Matching:</span>
+                                    <strong id="matching-score">Not yet rated</strong>
+                                </div>
+                            </div>
+
+                            <!-- Performance Feedback -->
+                            <div class="performance-feedback" id="performance-feedback">
+                                <p>Keep learning and improve your understanding of electromagnetic spectrum!</p>
+                            </div>
+
+                            <!-- Certificate-like Box -->
+                            <div class="achievement-box">
+                                <h4>🏆 Achievement</h4>
+                                <p id="achievement-text">You have completed the electromagnetic spectrum learning!</p>
+                            </div>
+
+                            <!-- Recommendations for Further Study -->
+                            <div class="recommendations">
+                                <h4>💡 Recommendations for Further Study</h4>
+                                <ul id="recommendation-list">
+                                    <li>Learn more about the photoelectric effect</li>
+                                    <li>Explore X-ray applications in industry</li>
+                                    <li>Understand solar radiation mechanisms</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step-footer">
+                            <button class="btn-nav" onclick="resetLearning()">🔄 Reset & Repeat Learning</button>
+                            <button class="btn-nav primary" onclick="navigateTo('home-page')">🏠 Back to Home</button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </section>
+    </div>
+
+    <!-- Loading Screen (if needed) -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="spinner"></div>
+        <p>Loading spectrum data...</p>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
